@@ -1,5 +1,11 @@
 # NavApi
 
+Notes:
+
+- UniqueId musí byť prístupné pre kadekoho. Takže nie len cez factory parameter, ale normálne do DI.
+
+Example:
+
 ```ts
 function NavApiFactory<RFn>(f: RFn) { ... }
 export const NavApi = NavApiFactory((<R>r: { data: R, meta: 'submitted' | 'nieco'}) => r);	// mozno to ide spravit aj cez overload ??; default: <R>(r: R | null) => r
