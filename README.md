@@ -1,84 +1,27 @@
-# NavApi
+# Navapi
 
-Notes:
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.4.
 
-- UniqueId musí byť prístupné pre kadekoho. Takže nie len cez factory parameter, ale normálne do DI.
+## Development server
 
-Example:
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-```ts
-function NavApiFactory<RFn>(f: RFn) { ... }
-export const NavApi = NavApiFactory((<R>r: { data: R, meta: 'submitted' | 'nieco'}) => r);	// mozno to ide spravit aj cez overload ??; default: <R>(r: R | null) => r
+## Code scaffolding
 
-class NavApi {
-	static forId(fn) => ...,
-	constructor(protected store: Store, route: Route, router: Router, injector: Injector) {
-	}
-	// musim mat, ze co je to za triedu
-	getOrCreate(params: { deps: any[] }) {
-		// ziskaj ID z activatedRoute
-		// hladam podla ID 	-> mam -> overim, ci je to ta moja -> vratim
-		//					-> nemam -> vytvorim di
-		const di = Injector.create({
-			provides: [],
-			parent: this.injector,
-		})
-	}
-	route: ExtenedRoute // preklapa id-cko z url na nejake vlastne id-cko a skryje ho (bezpecnost), ponuka parametre/stream volajuceho
-	
-	open<P, R>(commands: any[], extras: NavigationExtras): Observable<{ data: R | meta: any}>;	// relativeTo -> relativeToSelf, hiddenParam: any; null znamena nič
-	open2<P, R>(commands: any[], extras: NavigationExtras): { toParent: Observable<R>, toChild: Subject<P> };	// dvojito
-	openModal<P, R>(commands: any[], extras: NavigationExtras): { then: OperatorFunction<R, ?> };	// dvojito
-	open<T>(definition): // pekna vlastnost
-	close(...): Observable<any>;	// v tomto pripade by sme hneď vedeli, čo posielať do close, lebo protokol
-}
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-class MyService {
-	constructor(
-		params: { 
-			nejakyUrlParam: string, 
-			nejakySpecificConstant: string 
-		}, 
-		uniqueId: string,
-		http: HttpClient
-	) {
-	}
-}
+## Build
 
-@Component({
-	provides:[NavApi.forId(id => `{id}-myService`)],	// tu mi asi vznikne vzdy nova NavApi pre dany ActivatedRoute, inak by som si ju musel stvorit v konstruktore sam
-})
-class MyComponent {
-	service?: MyService;
-	
-	constructor(navApi: NavApi) {
-		navApi.route.params.pipe(takeUntil(this.destroySignal)).subscribe(p => {
-			this.service = navApi.getOrCreate({ 
-				provide: MyService, 
-				deps: [HttpClient], 
-				useFactory: (uniqueId, ...args) => new MyService({ }, ...args),
-			});	
-			this.service = navApi.getOrCreate(
-				MyService, 
-				[HttpClient], 
-				(uniqueId, ...args) => new MyService({ nejakyUrlParam: p['nieco'], nejakySpecificConstant: 5 }, ...args)
-			);			
-		})
-	}
-}
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-pipe(
-	concatMap(() => navApi.openModal<MojTyp>(
-			['chcem', 'ist', 'niekam'],
-			{ relativeToSelf: true, param: 7 }
-		).then(
-			pipe(
-				concatMap(r => this.resource.api(r)),
-			),
-		)
-	},
-	concatMap(x => navApi.close({ data: x, meta: 'attach' })),
-)
+## Running unit tests
 
-// neviem, na aku zmenu url (ci params, ci optional params, ci queryParams) chceme vytvorit novu MyService - to si musi vyriesit programator
-```
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+## Running end-to-end tests
+
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
