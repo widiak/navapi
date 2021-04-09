@@ -1,6 +1,5 @@
 # Navapi
 
-
 ## Build
 
 Run `ng build navapi` to build the project. The build artifacts will be stored in the `dist/` directory.

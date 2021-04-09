@@ -9,9 +9,10 @@ import { ClientsComponent } from './clients/clients.component';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { navapiReducer, NavApiModule } from 'navapi';
+import { FamiliesComponent } from './clients/families.component';
 
 @NgModule({
-    declarations: [AppComponent, ClientsComponent, ClientDetailComponent, AddressesComponent],
+    declarations: [AppComponent, ClientsComponent, ClientDetailComponent, AddressesComponent, FamiliesComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,

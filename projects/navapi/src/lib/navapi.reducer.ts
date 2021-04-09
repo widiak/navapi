@@ -15,10 +15,7 @@ const initialState: Channels = {};
 
 const reducer = createReducer(
     initialState,
-    on(
-        navapiActions.initChannel, 
-        (state, { id }) => ({ ...state, [id]: { toParent: null, toChild: null }})
-    ),
+    on(navapiActions.initChannel, (state, { id }) => ({ ...state, [id]: { toParent: null, toChild: null } })),
     on(navapiActions.forwardChannel, (state, { id, forwardTo }) => ({
         ...state,
         [id]: { toChild: null, forwardTo },
@@ -39,17 +36,17 @@ const reducer = createReducer(
         const skippedIds = [id];
         function recursiveSearch(id: number) {
             const forwardIds = Object.keys(state)
-                .map(k => +k)
-                .filter(k => state[k].forwardTo === id);
+                .map((k) => +k)
+                .filter((k) => state[k].forwardTo === id);
             skippedIds.push(...forwardIds);
-            forwardIds.forEach(id => recursiveSearch(id));
+            forwardIds.forEach((id) => recursiveSearch(id));
         }
         recursiveSearch(id);
         const state2 = Object.keys(state)
-            .map(k => +k)
+            .map((k) => +k)
             .reduce((s, k) => (skippedIds.includes(k) ? s : { ...s, [k]: state[k] }), {});
         return state2;
-    }),
+    })
 );
 
 export function navapiReducer(state: Channels | undefined, action: Action) {

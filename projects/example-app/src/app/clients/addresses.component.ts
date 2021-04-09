@@ -20,7 +20,7 @@ export class AddressesComponent implements OnDestroy {
     ngOnInit() {
         this.navApi.params //parent?.params
             .pipe(
-                tap(params => {
+                tap((params) => {
                     const clientId = +params['id'];
                     this.addresses$ = PersonsResource.getAddresses(clientId);
                 }),

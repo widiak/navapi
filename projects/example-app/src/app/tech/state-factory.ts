@@ -15,7 +15,7 @@ export class StateFactory {
 
     get<T>(clazz: Constructor<T>): Observable<T> {
         return this.route.params.pipe(
-            map(p => {
+            map((p) => {
                 const di = Injector.create({
                     providers: [
                         {

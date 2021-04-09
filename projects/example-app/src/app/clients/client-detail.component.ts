@@ -21,7 +21,7 @@ export class ClientDetailComponent implements OnDestroy, OnInit {
     ngOnInit() {
         this.navApi.params
             .pipe(
-                tap(params => {
+                tap((params) => {
                     const clientId = +params['id'];
                     this.client$ = PersonsResource.getPerson(clientId);
                 }),

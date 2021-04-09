@@ -3,7 +3,12 @@ import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-root',
-    templateUrl: './app.component.html',
+    template: `
+        <button (click)="navClients()">Persons</button>
+        <button (click)="navFamilies()">Families</button>
+        <hr />
+        <router-outlet></router-outlet>
+    `,
     styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
@@ -12,5 +17,8 @@ export class AppComponent {
     constructor(protected router: Router) {}
     navClients() {
         this.router.navigate(['/clients']);
+    }
+    navFamilies() {
+        this.router.navigate(['/families']);
     }
 }
